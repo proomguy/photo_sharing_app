@@ -5,10 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:photo_sharing/account_check/account_check.dart';
+import 'package:photo_sharing/log_in/login_screen.dart';
 import 'package:photo_sharing/widgets/button_square.dart';
 import 'package:photo_sharing/widgets/input_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+
+import '../../home_screen/home_screen.dart';
 
 
 class Credentials extends StatefulWidget{
@@ -190,7 +194,14 @@ class _CredentialsState extends State<Credentials>{
                 Fluttertoast.showToast(msg: error.toString());
               }
               //Navigate the user to the home page
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
             }
+          ),
+          AccountCheck(
+            login: false,
+            press: (){
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+            },
           ),
         ],
       ),
