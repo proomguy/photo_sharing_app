@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "938148317860",
+    "project_id": "photo-sharing-app-2ebe3",
+    "storage_bucket": "photo-sharing-app-2ebe3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938148317860:android:b39b7eca09e3c358b13431",
+        "android_client_info": {
+          "package_name": "com.mattz100bc.photo_sharing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938148317860-c8ao557ith7nii7017nj7aoksdne40a6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATxEz4mOb-LxSwdX0V0SsfExhidbSy1HY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938148317860-c8ao557ith7nii7017nj7aoksdne40a6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
