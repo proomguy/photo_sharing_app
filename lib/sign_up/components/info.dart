@@ -151,7 +151,7 @@ class _CredentialsState extends State<Credentials>{
           ),
           const SizedBox(height: 10.0,),
           InputField(
-            hintText: "Enter Phone Number",
+            hintText: "Enter Phone Number without code",
             iconData: Icons.phone,
             obscureText: false,
             textEditingController: _phoneNumberController,
