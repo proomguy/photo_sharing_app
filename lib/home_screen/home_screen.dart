@@ -1,8 +1,12 @@
 import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:photo_sharing/log_in/login_screen.dart';
 
 class HomeScreen extends StatefulWidget{
   @override
@@ -12,6 +16,11 @@ class HomeScreen extends StatefulWidget{
 class _HomeScreenState extends State<HomeScreen> {
 
   File? imageFile;
+  String? imageUrl;
+  String? myImage;
+  String? myName;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void _showImageDialog(){
     showDialog(
@@ -94,6 +103,46 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _upload_image() async{
+    if(imageFile == null){
+      Fluttertoast.showToast(msg: "Please select an image");
+      return;
+    }
+    try{
+      final ref = FirebaseStorage.instance.ref().child('userImages').child(DateTime.now().toString() + '.jpg');
+      await ref.putFile(imageFile!);
+      imageUrl = await ref.getDownloadURL();
+      FirebaseFirestore.instance.collection('wallpaper').doc(DateTime.now().toString()).set({
+        'id' : _auth.currentUser!.uid,
+        'userImage' : myImage,
+        'name' : myName,
+        'email' : _auth.currentUser!.email,
+        'image' : imageUrl,
+        'downloads' : 0,
+        'createdAt' :DateTime.now(),
+      });
+      Navigator.canPop(context) ? Navigator.pop(context) : null;
+      imageFile = null;
+    }
+    catch(error){
+      Fluttertoast.showToast(msg: error.toString());
+    }
+  }
+  
+  void read_userInfo() async{
+    FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get().then<dynamic>((DocumentSnapshot snapshot) async{
+      myImage = snapshot.get('userImage');
+      myName = snapshot.get('name');
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    read_userInfo();
+  }
+
   @override
   Widget build(BuildContext context){
     return Container(
@@ -129,6 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: (){
                   //Here we going to create an upload image code
                   //upload_image
+                  _upload_image();
                 },
                 child: const Icon(Icons.cloud_upload_outlined),
               ),
@@ -146,6 +196,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     stops: [0.2, 0.9]
                 )
             ),
+          ),
+          leading: GestureDetector(
+            onTap: (){
+              FirebaseAuth.instance.signOut();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+            },
+            child: const Icon(Icons.logout_outlined),
           ),
         ),
       ),
