@@ -20,7 +20,7 @@ class HeadText extends StatelessWidget{
             ),
             ),
           ),
-          SizedBox(height: 20.0,),
+          const SizedBox(height: 20.0,),
           const Center(
             child: Text("Reset Here", style: TextStyle(
                 fontSize: 30,

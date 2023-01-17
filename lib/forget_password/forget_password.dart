@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'components/heading_text.dart';
+import 'components/info.dart';
 
 class ForgetPasswordScreen extends StatelessWidget{
 
@@ -22,7 +23,7 @@ class ForgetPasswordScreen extends StatelessWidget{
             child: Column(
               children: [
                 HeadText(),
-                //Credentials(),
+                Credentials(),
               ],
             ),
           ),
