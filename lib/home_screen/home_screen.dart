@@ -16,6 +16,9 @@ class HomeScreen extends StatefulWidget{
 
 class _HomeScreenState extends State<HomeScreen> {
 
+  String changeTitle = "Grid View";
+  bool checkView = false;
+  
   File? imageFile;
   String? imageUrl;
   String? myImage;
@@ -130,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
   
-  void read_userInfo() async{
+  void readUserInfo() async{
     FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get().then<dynamic>((DocumentSnapshot snapshot) async{
       myImage = snapshot.get('userImage');
       myName = snapshot.get('name');
@@ -141,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    read_userInfo();
+    readUserInfo();
   }
 
   Widget listViewWidget(String docId, String img, String userImg, String name, DateTime dateTime, String userId, int downloads){
@@ -199,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 10.0,),
                         Text(
-                          DateFormat("dd mmmm, yyyy - hh:mm a").format(dateTime).toString(),
+                          DateFormat("dd MMMM, yyyy - hh:mm a").format(dateTime).toString(),
                           style: const TextStyle(
                             color: Colors.white54,
                             fontWeight: FontWeight.bold
@@ -217,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget GridViewWidget(String docId, String img, String userImg, String name, DateTime dateTime, String userId, int downloads){
+  Widget gridViewWidget(String docId, String img, String userImg, String name, DateTime dateTime, String userId, int downloads){
     return GridView.count(
       primary: false,
       padding: const EdgeInsets.all(6.0),
@@ -303,6 +306,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
             ),
           ),
+          title: GestureDetector(
+            onTap: (){
+              setState(() {
+                changeTitle = "List View";
+                checkView = true;
+              });
+            },
+            onDoubleTap: (){
+              setState(() {
+                changeTitle = "Grid View";
+                checkView = false;
+              });
+            },
+            child: Text(changeTitle),
+          ),
+          centerTitle: true,
           leading: GestureDetector(
             onTap: (){
               FirebaseAuth.instance.signOut();
@@ -310,6 +329,72 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: const Icon(Icons.logout_outlined),
           ),
+        ),
+        body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('wallpaper').orderBy("createdAt", descending: true).snapshots(),
+          builder: (context, snapshot){
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return const Center(child: CircularProgressIndicator(),);
+            }
+            else if(snapshot.connectionState == ConnectionState.active){
+              if(snapshot.data!.docs.isNotEmpty){
+                if(checkView == true){
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (BuildContext context, int index){
+                      return listViewWidget(
+                        snapshot.data!.docs[index].id,
+                        snapshot.data!.docs[index]['image'],
+                        snapshot.data!.docs[index]['userImage'],
+                        snapshot.data!.docs[index]['name'],
+                        snapshot.data!.docs[index]['createdAt'].toDate(),
+                        snapshot.data!.docs[index]['id'],
+                        snapshot.data!.docs[index]['downloads'],
+                      );
+                    }                    
+                  );
+                }
+                else{
+                  return GridView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3
+                    ),
+                      itemBuilder: (BuildContext context, int index){
+                        return gridViewWidget(
+                          snapshot.data!.docs[index].id,
+                          snapshot.data!.docs[index]['image'],
+                          snapshot.data!.docs[index]['userImage'],
+                          snapshot.data!.docs[index]['name'],
+                          snapshot.data!.docs[index]['createdAt'].toDate(),
+                          snapshot.data!.docs[index]['id'],
+                          snapshot.data!.docs[index]['downloads'],
+                        );
+                      }
+                  );
+                }
+              }
+              else{
+                return const Center(
+                  child: Text('There is no tasks',
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20
+                    ),
+                  ),
+                );
+              }
+            }
+            return const Center(
+              child: Text(
+                'Something went terribly wrong',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
