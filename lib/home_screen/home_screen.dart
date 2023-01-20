@@ -8,6 +8,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:photo_sharing/log_in/login_screen.dart';
+import 'package:photo_sharing/owner_details/owner_details.dart';
 
 class HomeScreen extends StatefulWidget{
   @override
@@ -167,7 +168,15 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               GestureDetector(
                 onTap: (){
-                  //Create owner details
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => OwnerDetails(
+                    img: img,
+                    userImg: userImg,
+                    name: name,
+                    dateTime: dateTime,
+                    docId: docId,
+                    userId: userId,
+                    downloads: downloads,
+                  )));
                 },
                 child: Image.network(
                   img,
@@ -220,6 +229,20 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  //This code defines a Flutter widget called "listViewWidget" that takes several arguments as input and returns a UI element that displays information about an image.
+
+//The widget is a Padding widget that wraps a Card widget. The Card widget has an elevation and a shadow color, and it contains a Container widget.
+
+//The Container widget has a BoxDecoration with a LinearGradient background, and it also has padding. Inside the container, there is a Column widget that contains several other UI elements.
+
+//The first element is a GestureDetector widget that wraps an Image.Network widget. The Image.network widget displays the image passed in the "img" argument, and it is set to fit the cover of the screen. The GestureDetector widget is set to call a function when tapped, but the function is not defined in this code snippet.
+
+//The next element is a SizedBox widget with a fixed height, followed by a Padding widget that wraps a Row widget. The Row widget contains a CircleAvatar widget that displays an image, which is passed in the "userImg" argument, and a Column widget that displays text.
+
+//The CircleAvatar widget has a fixed radius and displays the user's image passed in the "userImg" argument. The Column widget contains two text widgets, the first one displays the name passed in the "name" argument and the second text widget displays the date and time passed in the "dateTime" argument with a specific format.
+
+//Overall, this code creates a UI element that displays an image, the user's name, the date and time the image was created, and the user's profile picture.
+
   Widget gridViewWidget(String docId, String img, String userImg, String name, DateTime dateTime, String userId, int downloads){
     return GridView.count(
       primary: false,
@@ -238,7 +261,15 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(10.0),
           child: GestureDetector(
             onTap: (){
-              //We create the page for the owner details
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => OwnerDetails(
+                img: img,
+                userImg: userImg,
+                name: name,
+                dateTime: dateTime,
+                docId: docId,
+                userId: userId,
+                downloads: downloads,
+              )));
             },
             child: Center(
               child: Image.network(
