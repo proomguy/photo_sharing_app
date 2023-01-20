@@ -1,5 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:intl/intl.dart';
+import 'package:photo_sharing/home_screen/home_screen.dart';
+import 'package:photo_sharing/widgets/button_square.dart';
 
 class OwnerDetails extends StatefulWidget{
 
@@ -26,6 +33,8 @@ class OwnerDetails extends StatefulWidget{
 }
 
 class _OwnerDetailsState extends State<OwnerDetails> {
+  
+  int? total;
 
   @override
   Widget build(BuildContext context){
@@ -112,6 +121,36 @@ class _OwnerDetailsState extends State<OwnerDetails> {
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(height: 10.0,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: ButtonSquare(
+                    text: "Download",
+                    colors1: Colors.green,
+                    colors2: Colors.greenAccent,
+                    press: () async {
+                      try{
+                        var imageId = await ImageDownloader.downloadImage(widget.img!);
+                        if(imageId == null){
+                          return;
+                        }
+                        else{
+                          Fluttertoast.showToast(msg: "Image saved to Gallery");
+                          total = widget.downloads! + 1;
+                          FirebaseFirestore.instance.collection('wallpaper').doc(widget.docId)
+                              .update({'downloads' : total}).then((value) async {
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                          });
+                        }
+                      }
+                      on PlatformException catch(error){
+                        if (kDebugMode) {
+                          print(error);
+                        }
+                      }
+                    },
+                  ),
                 ),
               ],
             ),

@@ -2,8 +2,10 @@
     package="com.mattz100bc.photo_sharing">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-   <application
+
+    <application
         android:label="photo_sharing"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
