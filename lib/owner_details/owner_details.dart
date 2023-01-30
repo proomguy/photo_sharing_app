@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -149,6 +150,33 @@ class _OwnerDetailsState extends State<OwnerDetails> {
                           print(error);
                         }
                       }
+                    },
+                  ),
+                ),
+                FirebaseAuth.instance.currentUser!.uid == widget.userId ? Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: ButtonSquare(
+                    text: "Delete photo",
+                    colors1: Colors.green,
+                    colors2: Colors.greenAccent,
+                    press: () {
+                      FirebaseFirestore.instance.collection('wallpaper').doc(widget.docId).delete().then((value) {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                        Fluttertoast.showToast(msg: "The image was successfully deleted");
+                      });
+                    },
+                  ),
+                )
+                    :
+                    Container(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: ButtonSquare(
+                    text: "Go Back",
+                    colors1: Colors.green,
+                    colors2: Colors.greenAccent,
+                    press: () {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
                     },
                   ),
                 ),
