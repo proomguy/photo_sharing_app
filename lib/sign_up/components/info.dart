@@ -31,6 +31,7 @@ class _CredentialsState extends State<Credentials>{
   File? imageFile;
   String? imageUrl;
 
+  //This will show the image dialog Box
   void _showImageDialog(){
     showDialog(
       context: context,
@@ -46,8 +47,8 @@ class _CredentialsState extends State<Credentials>{
                   //getFromCamera
                   _getFromCamera();
                 },
-                child: Row(
-                  children: const [
+                child: const Row(
+                  children: [
                     Padding(
                       padding: EdgeInsets.all(4.0),
                       child: Icon(
@@ -68,8 +69,8 @@ class _CredentialsState extends State<Credentials>{
                   //getImageFrom gallery
                   _getFromGallery();
                 },
-                child: Row(
-                  children: const [
+                child: const Row(
+                  children: [
                     Padding(
                       padding: EdgeInsets.all(4.0),
                       child: Icon(
