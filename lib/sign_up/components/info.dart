@@ -15,6 +15,8 @@ import '../../home_screen/home_screen.dart';
 
 
 class Credentials extends StatefulWidget{
+  const Credentials({Key? key}) : super(key: key);
+
   @override
   State<Credentials> createState() => _CredentialsState();
 }
@@ -95,12 +97,14 @@ class _CredentialsState extends State<Credentials>{
   void _getFromCamera() async {
     XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
     _cropImage(pickedFile!.path);
+    // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
 
   void _getFromGallery() async {
     XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     _cropImage(pickedFile!.path);
+    // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
 
@@ -171,7 +175,7 @@ class _CredentialsState extends State<Credentials>{
                 return;
               }
               try{
-                final ref = FirebaseStorage.instance.ref().child('userImages').child(DateTime.now().toString() + '.jpg');
+                final ref = FirebaseStorage.instance.ref().child('userImages').child('${DateTime.now()}.jpg');
                 await ref.putFile(imageFile!);
                 imageUrl = await ref.getDownloadURL();
                 await _auth.createUserWithEmailAndPassword(
@@ -179,28 +183,30 @@ class _CredentialsState extends State<Credentials>{
                   password: _passTextController.text.trim(),
                 );
                 final User? user = _auth.currentUser;
-                final _uid = user!.uid;
-                FirebaseFirestore.instance.collection('users').doc(_uid).set({
-                  'id' : _uid,
+                final uid = user!.uid;
+                FirebaseFirestore.instance.collection('users').doc(uid).set({
+                  'id' : uid,
                   'userImage' : imageUrl,
                   'name' : _fullNameController.text,
                   'email' : _emailTextController.text,
                   'phoneNumber' : _phoneNumberController.text,
                   'createAt' : Timestamp.now(),
                 });
+                // ignore: use_build_context_synchronously
                 Navigator.canPop(context) ? Navigator.pop(context) : null;
               }
               catch(error){
                 Fluttertoast.showToast(msg: error.toString());
               }
               //Navigate the user to the home page
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+              // ignore: use_build_context_synchronously
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
             }
           ),
           AccountCheck(
             login: false,
             press: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
             },
           ),
         ],

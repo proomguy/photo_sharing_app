@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HeadText extends StatelessWidget{
+  const HeadText({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context){
@@ -8,7 +10,7 @@ class HeadText extends StatelessWidget{
     Size size = MediaQuery.of(context).size;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
       child: Column(
         children: [
           SizedBox(height: size.height * 0.05),
@@ -21,7 +23,7 @@ class HeadText extends StatelessWidget{
               ),
             ),
           ),
-          SizedBox(height: 20.0,),
+          const SizedBox(height: 20.0,),
           const Center(
             child: Text("Log in", style: TextStyle(
               fontSize: 30,

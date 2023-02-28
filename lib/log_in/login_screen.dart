@@ -4,6 +4,8 @@ import 'package:photo_sharing/log_in/components/info.dart';
 import 'components/heading_text.dart';
 
 class LoginScreen extends StatelessWidget{
+  const LoginScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context){
@@ -22,7 +24,7 @@ class LoginScreen extends StatelessWidget{
           child: SingleChildScrollView(
             child: Column(
               children: [
-                HeadText(),
+                const HeadText(),
                 Credentials(),
               ],
             ),

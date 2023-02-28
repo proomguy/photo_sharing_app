@@ -4,6 +4,8 @@ import 'components/heading_text.dart';
 import 'components/info.dart';
 
 class ForgetPasswordScreen extends StatelessWidget{
+  const ForgetPasswordScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context){
@@ -22,7 +24,7 @@ class ForgetPasswordScreen extends StatelessWidget{
           child: SingleChildScrollView(
             child: Column(
               children: [
-                HeadText(),
+                const HeadText(),
                 Credentials(),
               ],
             ),

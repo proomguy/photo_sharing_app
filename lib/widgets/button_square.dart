@@ -7,12 +7,12 @@ class ButtonSquare extends StatelessWidget{
   final Color colors1;
   final Color colors2;
 
-  ButtonSquare({
+  const ButtonSquare({Key? key,
     required this.text,
     required this.press,
     required this.colors1,
     required this.colors2
-});
+}) : super(key: key);
 
   @override
   Widget build(BuildContext context){

@@ -11,6 +11,8 @@ import 'package:photo_sharing/log_in/login_screen.dart';
 import 'package:photo_sharing/owner_details/owner_details.dart';
 
 class HomeScreen extends StatefulWidget{
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -42,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     //getFromCamera
                     _getFromCamera();
                   },
-                  child: Row(
-                    children: const [
+                  child: const Row(
+                    children: [
                       Padding(
                         padding: EdgeInsets.all(4.0),
                         child: Icon(
@@ -64,8 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     //getImageFrom gallery
                     _getFromGallery();
                   },
-                  child: Row(
-                    children: const [
+                  child: const Row(
+                    children: [
                       Padding(
                         padding: EdgeInsets.all(4.0),
                         child: Icon(
@@ -90,12 +92,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void _getFromCamera() async {
     XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
     _cropImage(pickedFile!.path);
+    // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
 
   void _getFromGallery() async {
     XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     _cropImage(pickedFile!.path);
+    // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
 
@@ -114,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
     try{
-      final ref = FirebaseStorage.instance.ref().child('userImages').child(DateTime.now().toString() + '.jpg');
+      final ref = FirebaseStorage.instance.ref().child('userImages').child('${DateTime.now()}.jpg');
       await ref.putFile(imageFile!);
       imageUrl = await ref.getDownloadURL();
       FirebaseFirestore.instance.collection('wallpaper').doc(DateTime.now().toString()).set({
@@ -126,6 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'downloads' : 0,
         'createdAt' :DateTime.now(),
       });
+      // ignore: use_build_context_synchronously
       Navigator.canPop(context) ? Navigator.pop(context) : null;
       imageFile = null;
     }
@@ -356,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen> {
           leading: GestureDetector(
             onTap: (){
               FirebaseAuth.instance.signOut();
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
             },
             child: const Icon(Icons.logout_outlined),
           ),

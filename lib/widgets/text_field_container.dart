@@ -4,7 +4,7 @@ class TextFieldContainer extends StatelessWidget{
 
   final Widget child;
 
-  TextFieldContainer({required this.child});
+  const TextFieldContainer({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context){

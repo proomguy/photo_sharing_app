@@ -8,12 +8,12 @@ class InputField extends StatelessWidget{
   final bool obscureText;
   final TextEditingController textEditingController;
 
-  InputField({
+  const InputField({Key? key,
     required this.hintText,
     required this.iconData,
     required this.obscureText,
     required this.textEditingController
-});
+}) : super(key: key);
 
   @override
   Widget build(BuildContext context){

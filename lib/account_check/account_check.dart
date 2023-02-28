@@ -5,10 +5,10 @@ class AccountCheck extends StatelessWidget{
   final bool login;
   final VoidCallback press;
 
-  AccountCheck({
+  const AccountCheck({Key? key,
     required this.login,
     required this.press
-});
+}) : super(key: key);
 
   @override
   Widget build(BuildContext context){

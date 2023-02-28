@@ -15,6 +15,8 @@ class Credentials extends StatelessWidget{
   final TextEditingController _emailTextController = TextEditingController(text: '');
   final TextEditingController _passTextController = TextEditingController(text: '');
 
+  Credentials({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context){
     return Padding(
@@ -52,7 +54,7 @@ class Credentials extends StatelessWidget{
               GestureDetector(
                 onTap: (){
                   //This is for the forget password section function, we will work on it later
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ForgetPasswordScreen()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const ForgetPasswordScreen()));
                 },
                 child: const Text(
                   "Forget Password?",
@@ -77,7 +79,8 @@ class Credentials extends StatelessWidget{
                   password: _passTextController.text.trim(),
                 );
                 // I shall create a home screen here, This is the entry point to the system
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                // ignore: use_build_context_synchronously
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
               }
               catch(error){
                 Fluttertoast.showToast(msg: error.toString());
@@ -87,7 +90,7 @@ class Credentials extends StatelessWidget{
           AccountCheck(
             login: true,
             press: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SignUpScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SignUpScreen()));
             },
           ),
         ],

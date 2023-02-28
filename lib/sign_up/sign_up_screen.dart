@@ -3,6 +3,8 @@ import 'components/heading_text.dart';
 import 'components/info.dart';
 
 class SignUpScreen extends StatelessWidget{
+  const SignUpScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context){
@@ -15,7 +17,7 @@ class SignUpScreen extends StatelessWidget{
               stops: const [0.2, 0.9]
           )
       ),
-      child: Scaffold(
+      child: const Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(
           child: SingleChildScrollView(

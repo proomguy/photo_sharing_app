@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:photo_sharing/home_screen/home_screen.dart';
 import 'package:photo_sharing/widgets/button_square.dart';
 
+// ignore: must_be_immutable
 class OwnerDetails extends StatefulWidget{
 
   String? img;
@@ -19,7 +20,7 @@ class OwnerDetails extends StatefulWidget{
   String? userId;
   int? downloads;
 
-  OwnerDetails({
+  OwnerDetails({Key? key,
     this.img,
     this.userImg,
     this.name,
@@ -27,7 +28,7 @@ class OwnerDetails extends StatefulWidget{
     this.docId,
     this.userId,
     this.downloads
-});
+}) : super(key: key);
 
   @override
   State<OwnerDetails> createState() => _OwnerDetailsState();
@@ -141,7 +142,7 @@ class _OwnerDetailsState extends State<OwnerDetails> {
                           total = widget.downloads! + 1;
                           FirebaseFirestore.instance.collection('wallpaper').doc(widget.docId)
                               .update({'downloads' : total}).then((value) async {
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
                           });
                         }
                       }
@@ -162,7 +163,7 @@ class _OwnerDetailsState extends State<OwnerDetails> {
                     colors2: Colors.greenAccent,
                     press: () {
                       FirebaseFirestore.instance.collection('wallpaper').doc(widget.docId).delete().then((value) {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
                         Fluttertoast.showToast(msg: "The image was successfully deleted");
                       });
                     },
@@ -177,7 +178,7 @@ class _OwnerDetailsState extends State<OwnerDetails> {
                     colors1: Colors.green,
                     colors2: Colors.greenAccent,
                     press: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
                     },
                   ),
                 ),

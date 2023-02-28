@@ -13,6 +13,8 @@ class Credentials extends StatelessWidget{
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Credentials({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context){
     return Padding(
@@ -43,6 +45,7 @@ class Credentials extends StatelessWidget{
             press: () async {
               try{
                 await _auth.sendPasswordResetEmail(email: _emailTextEditingController.text);
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   backgroundColor: Colors.amber,
                   content: Text("Password Reset email has been sent",
@@ -54,12 +57,13 @@ class Credentials extends StatelessWidget{
               on FirebaseAuthException catch(error){
                 Fluttertoast.showToast(msg: error.toString());
               }
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+              // ignore: use_build_context_synchronously
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
             },
           ),
           TextButton(
             onPressed: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SignUpScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SignUpScreen()));
             },
             child: const Center(child: Text("Create Account")),
           ),
@@ -67,7 +71,7 @@ class Credentials extends StatelessWidget{
           AccountCheck(
             login: false,
             press: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
             },
           ),
         ],

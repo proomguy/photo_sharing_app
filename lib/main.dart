@@ -13,6 +13,8 @@ class MyApp extends StatelessWidget {
 
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
+  MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: "Photo sharing App",
-          home: FirebaseAuth.instance.currentUser == null ? LoginScreen() : HomeScreen(),
+          home: FirebaseAuth.instance.currentUser == null ? const LoginScreen() : const HomeScreen(),
           );
       }
     );
